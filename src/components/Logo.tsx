@@ -10,7 +10,7 @@ export default function Logo({ size = 'md' }: LogoProps) {
     <a
       href="/"
       aria-label="Marinas Wind Shop — Home"
-      className={`${dim} bg-navy border border-white/15 flex flex-col items-center justify-center leading-none select-none transition-all duration-300 focus-gold`}
+      className={`${dim} bg-navy flex flex-col items-center justify-center leading-none select-none transition-all duration-300 focus-gold`}
     >
       <Icon name="sail" className="w-5 h-6 mb-1" />
       <span className="font-display text-white text-[11px] font-semibold tracking-wider-2">WIND</span>
