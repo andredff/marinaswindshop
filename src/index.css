@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { scroll-behavior: smooth; }
+html, body { background: #0B1D33; }
+body { font-family: Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+
+a, button { -webkit-tap-highlight-color: rgba(201,167,104,0.25); }
+img { max-width: 100%; }
+
+.nav-link { position: relative; }
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 50%; right: 50%; bottom: -6px; height: 1px;
+  background: #C9A768;
+  transition: left .25s ease, right .25s ease;
+}
+.nav-link:hover::after { left: 0; right: 0; }
