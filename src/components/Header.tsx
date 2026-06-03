@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Logo from './Logo'
 import Icon from './Icon'
 
@@ -6,18 +6,71 @@ const NAV = ['LOJA', 'OFICINA', 'MARCAS', 'HISTÓRIA', 'TRIMARÃ AVE RARA', 'CON
 
 export default function Header() {
   const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const drawerRef = useRef<HTMLDivElement>(null)
+  const hamburgerRef = useRef<HTMLButtonElement>(null)
+
+  // Sticky shrink on scroll
+  useEffect(() => {
+    const handle = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', handle, { passive: true })
+    return () => window.removeEventListener('scroll', handle)
+  }, [])
+
+  // Close drawer on Escape + basic focus trap
+  useEffect(() => {
+    if (!open) return
+    const handle = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false)
+        hamburgerRef.current?.focus()
+        return
+      }
+      if (e.key !== 'Tab') return
+      const focusable = Array.from(
+        drawerRef.current?.querySelectorAll('a, button') ?? [],
+      ) as HTMLElement[]
+      if (!focusable.length) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+    document.addEventListener('keydown', handle)
+    // move focus into drawer
+    const firstLink = drawerRef.current?.querySelector('a') as HTMLElement | null
+    firstLink?.focus()
+    return () => document.removeEventListener('keydown', handle)
+  }, [open])
 
   return (
-    <header className="absolute inset-x-0 top-0 z-30">
-      <div className="bg-navy">
+    <header
+      className={`fixed inset-x-0 top-0 z-30 transition-all duration-300 ${
+        scrolled ? 'shadow-[0_2px_24px_rgba(11,29,51,0.28)]' : ''
+      }`}
+    >
+      <div
+        className={`transition-colors duration-300 ${
+          scrolled ? 'bg-navy/95 backdrop-blur-md' : 'bg-navy'
+        }`}
+      >
         <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
-          <div className="flex items-center justify-between gap-6 h-[88px]">
-            <Logo />
+          <div
+            className={`flex items-center justify-between gap-6 transition-all duration-300 ${
+              scrolled ? 'h-[64px]' : 'h-[88px]'
+            }`}
+          >
+            <Logo size={scrolled ? 'sm' : 'md'} />
 
             {/* Desktop nav */}
             <nav className="hidden lg:flex items-center gap-9 text-[12px] font-semibold tracking-wider-2 text-white/90">
               {NAV.map((label) => (
-                <a key={label} href="#" className="nav-link hover:text-white transition-colors">
+                <a key={label} href="#" className="nav-link hover:text-white transition-colors focus-gold rounded-sm">
                   {label}
                 </a>
               ))}
@@ -25,16 +78,16 @@ export default function Header() {
 
             {/* Utility icons */}
             <div className="flex items-center gap-5 text-white/90">
-              <button aria-label="Buscar" className="hover:text-gold transition-colors">
+              <button aria-label="Buscar" className="hover:text-gold transition-colors focus-gold rounded-sm p-0.5">
                 <Icon name="search" />
               </button>
-              <button aria-label="Conta" className="hover:text-gold transition-colors">
+              <button aria-label="Conta" className="hover:text-gold transition-colors focus-gold rounded-sm p-0.5">
                 <Icon name="user" />
               </button>
-              <button aria-label="Favoritos" className="hidden sm:inline-flex hover:text-gold transition-colors">
+              <button aria-label="Favoritos" className="hidden sm:inline-flex hover:text-gold transition-colors focus-gold rounded-sm p-0.5">
                 <Icon name="heart" />
               </button>
-              <button aria-label="Sacola" className="relative hover:text-gold transition-colors">
+              <button aria-label="Sacola" className="relative hover:text-gold transition-colors focus-gold rounded-sm p-0.5">
                 <Icon name="cart" />
                 <span className="absolute -top-1.5 -right-2 text-[10px] font-semibold bg-gold text-navy rounded-full w-4 h-4 grid place-items-center">
                   2
@@ -43,9 +96,11 @@ export default function Header() {
 
               {/* Hamburger */}
               <button
+                ref={hamburgerRef}
                 aria-label={open ? 'Fechar menu' : 'Abrir menu'}
                 aria-expanded={open}
-                className="lg:hidden ml-1 text-white hover:text-gold transition-colors"
+                aria-controls="mobile-nav"
+                className="lg:hidden ml-1 text-white hover:text-gold transition-colors focus-gold rounded-sm p-0.5"
                 onClick={() => setOpen((o) => !o)}
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-6 h-6">
@@ -61,18 +116,22 @@ export default function Header() {
 
           {/* Mobile drawer */}
           <div
+            id="mobile-nav"
+            ref={drawerRef}
+            aria-hidden={!open}
             className={`lg:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-out ${
               open ? 'max-h-[460px] opacity-100' : 'max-h-0 opacity-0'
             }`}
           >
             <div className="border-t border-white/10 py-3">
-              <nav className="grid">
+              <nav>
                 {NAV.map((l) => (
                   <a
                     key={l}
                     href="#"
+                    tabIndex={open ? 0 : -1}
                     onClick={() => setOpen(false)}
-                    className="flex items-center justify-between py-3 border-b border-white/[0.08] text-white/85 hover:text-gold transition-colors text-[12.5px] tracking-wider-2 font-semibold"
+                    className="flex items-center justify-between py-3 border-b border-white/[0.08] text-white/85 hover:text-gold transition-colors text-[12.5px] tracking-wider-2 font-semibold focus-gold rounded-sm"
                   >
                     {l}
                     <Icon name="arrow-right" className="w-3.5 h-3.5 text-gold/70" stroke={1.7} />
@@ -81,8 +140,9 @@ export default function Header() {
               </nav>
               <a
                 href="#contato"
+                tabIndex={open ? 0 : -1}
                 onClick={() => setOpen(false)}
-                className="mt-4 mb-1 flex items-center justify-center gap-2.5 bg-gold hover:bg-[#b8954f] text-navy h-[48px] rounded-ds text-[12px] font-semibold tracking-wider-2 transition-colors"
+                className="mt-4 mb-1 flex items-center justify-center gap-2.5 bg-gold hover:bg-gold-hover text-navy h-[48px] rounded-ds text-[12px] font-semibold tracking-wider-2 transition-colors focus-gold"
               >
                 <Icon name="whatsapp" className="w-4 h-4" />
                 FALAR COM ESPECIALISTA

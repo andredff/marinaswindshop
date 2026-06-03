@@ -1,5 +1,12 @@
+export type IconName =
+  | 'search' | 'user' | 'heart' | 'cart' | 'whatsapp' | 'pin'
+  | 'anchor' | 'sailboat' | 'shield' | 'shirt' | 'arrow-right'
+  | 'headset' | 'wrench' | 'gears' | 'badge' | 'consult'
+  | 'phone' | 'mail' | 'instagram' | 'facebook' | 'sail'
+  | 'wave' | 'engine'
+
 interface IconProps {
-  name: string
+  name: IconName
   className?: string
   stroke?: number
 }
@@ -86,7 +93,9 @@ export default function Icon({ name, className = 'w-5 h-5', stroke = 1.6 }: Icon
           <path d="M4 32 H28 L25 36 H7 Z" fill="#38B7C6"/>
         </svg>
       )
-    default:
-      return null
+    case 'wave':
+      return <svg {...common}><path d="M3 10c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 2-2"/><path d="M3 16c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 2-2"/></svg>
+    case 'engine':
+      return <svg {...common}><rect x="4" y="8" width="14" height="9" rx="1"/><path d="M18 11h2v3h-2"/><path d="M7 8V6h6v2"/><path d="M8 17v2m6-2v2"/></svg>
   }
 }

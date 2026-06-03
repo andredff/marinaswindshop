@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Fonts ──────────────────────────────────────────────── */
 html { scroll-behavior: smooth; }
 html, body { background: #0B1D33; }
 body { font-family: Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
@@ -9,9 +10,16 @@ body { font-family: Inter, system-ui, sans-serif; -webkit-font-smoothing: antial
 h1, h2, h3 { text-wrap: balance; }
 p { text-wrap: pretty; }
 
+/* Cormorant Garamond: ativa ligaduras e kerning óptico */
+.font-display {
+  font-feature-settings: 'liga' 1, 'calt' 1, 'kern' 1;
+  font-optical-sizing: auto;
+}
+
 a, button { -webkit-tap-highlight-color: rgba(201,167,104,0.25); }
 img { max-width: 100%; }
 
+/* ── Nav underline hover ────────────────────────────────── */
 .nav-link { position: relative; }
 .nav-link::after {
   content: "";
@@ -21,3 +29,30 @@ img { max-width: 100%; }
   transition: left .25s ease, right .25s ease;
 }
 .nav-link:hover::after { left: 0; right: 0; }
+
+/* ── Focus ring: gold, visible only for keyboard nav ────── */
+@layer utilities {
+  .focus-gold {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy;
+  }
+}
+
+/* ── Scroll reveal ──────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Shared radial gold glows (referenced by JS const) ──── */
+:root {
+  --glow-hero:      radial-gradient(ellipse 55% 45% at 8% 35%,  rgba(201,167,104,0.18), transparent 65%);
+  --glow-center:    radial-gradient(ellipse 60% 40% at 50% 0%,  rgba(201,167,104,0.10), transparent 70%);
+  --glow-right:     radial-gradient(ellipse 50% 60% at 100% 50%, rgba(201,167,104,0.06), transparent 70%);
+}

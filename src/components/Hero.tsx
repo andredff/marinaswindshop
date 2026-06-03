@@ -1,15 +1,30 @@
+import { useEffect, useRef } from 'react'
 import Icon from './Icon'
 
 const heroImg = '/assets/hero-marina.png'
 
 export default function Hero() {
+  const imgRef = useRef<HTMLImageElement>(null)
+
+  // Parallax: image scrolls at 35% of page scroll speed
+  useEffect(() => {
+    const handle = () => {
+      if (!imgRef.current) return
+      imgRef.current.style.transform = `translateY(${window.scrollY * 0.35}px)`
+    }
+    window.addEventListener('scroll', handle, { passive: true })
+    return () => window.removeEventListener('scroll', handle)
+  }, [])
+
   return (
     <section className="relative isolate min-h-[760px] lg:min-h-[820px] overflow-hidden">
-      {/* Background image */}
+      {/* Background image — oversized vertically to allow parallax movement */}
       <img
+        ref={imgRef}
         src={heroImg}
         alt="Marina ao entardecer com veleiros ancorados"
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute left-0 right-0 w-full object-cover"
+        style={{ height: '120%', top: '-10%', willChange: 'transform' }}
         loading="eager"
       />
 
@@ -19,19 +34,21 @@ export default function Hero() {
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 55% 45% at 8% 35%, rgba(201,167,104,0.18), transparent 65%)' }}
+        style={{ background: 'var(--glow-hero)' }}
       />
 
       {/* Sub-strip: REVENDA AUTORIZADA */}
       <div className="absolute inset-x-0 top-[88px] z-20">
         <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
-          <div className="h-[46px] flex items-center justify-center gap-6 text-white/85 text-[11px] tracking-wider-3">
+          <div className="h-[46px] flex items-center justify-center gap-5 text-white/80 text-[11px] tracking-wider-3">
             <span className="hidden sm:inline">REVENDA AUTORIZADA</span>
             <span className="font-display font-bold tracking-wider-2 text-white">YANMAR</span>
             <span className="text-gold">•</span>
             <span className="font-display font-bold tracking-wider-2 text-white">NAUTOS</span>
             <span className="text-gold">•</span>
             <span className="font-display font-bold tracking-wider-2 text-white">V.ELO</span>
+            <span className="hidden md:inline text-white/30">|</span>
+            <span className="hidden md:inline font-medium text-gold/90">RECIFE MARINA</span>
           </div>
         </div>
       </div>
@@ -84,7 +101,7 @@ export default function Hero() {
       {/* Hero content */}
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 lg:px-10 pt-[200px] lg:pt-[230px] pb-24">
         <div className="max-w-3xl">
-          <h1 className="font-display font-medium leading-[1] tracking-tight text-[clamp(2.8rem,8vw,7rem)]">
+          <h1 className="font-display font-medium leading-[0.95] tracking-tight text-[clamp(3.2rem,9vw,8rem)]">
             <span className="block text-[#F1E7D2]" style={{ textShadow: '0 2px 18px rgba(11,29,51,0.45)' }}>
               Marinas
             </span>
@@ -102,17 +119,22 @@ export default function Hero() {
 
           {/* Tagline */}
           <p
-            className="mt-8 font-display italic text-[#F4EBD8] text-[clamp(1.55rem,3.2vw,2.4rem)] leading-[1.15] max-w-[22ch]"
+            className="mt-8 font-display italic text-[#F4EBD8] text-[clamp(1.75rem,3.5vw,2.7rem)] leading-[1.15] max-w-[22ch]"
             style={{ textShadow: '0 2px 18px rgba(11,29,51,0.5)' }}
           >
-            Estilo e mar no mesmo rumo.
+            O mar exige confiança.<br />A Wind Shop entrega.
+          </p>
+
+          {/* Value prop */}
+          <p className="mt-5 text-white/65 text-[14px] leading-[1.65] max-w-[38ch]">
+            Loja, oficina, peças, motores e moda náutica na Recife Marina — para quem leva o mar a sério.
           </p>
 
           {/* CTAs */}
-          <div className="mt-10 flex flex-col sm:flex-row gap-4">
+          <div className="mt-8 flex flex-col sm:flex-row gap-4">
             <a
               href="#contato"
-              className="inline-flex items-center justify-center gap-3 bg-gold hover:bg-[#b8954f] active:translate-y-[1px] transition-all text-navy font-semibold tracking-wider-2 text-[12px] px-7 h-[54px] rounded-ds shadow-soft"
+              className="inline-flex items-center justify-center gap-3 bg-gold hover:bg-gold-hover active:translate-y-[1px] transition-all text-navy font-semibold tracking-wider-2 text-[12px] px-7 h-[54px] rounded-ds shadow-soft focus-gold"
             >
               <span className="grid place-items-center w-7 h-7 rounded-full bg-white/90 text-[#25D366]">
                 <Icon name="whatsapp" className="w-4 h-4" />
@@ -122,7 +144,7 @@ export default function Hero() {
 
             <a
               href="#marina"
-              className="inline-flex items-center justify-center gap-3 border border-white/80 hover:bg-white/10 transition-colors text-white font-semibold tracking-wider-2 text-[12px] px-7 h-[54px] rounded-ds"
+              className="inline-flex items-center justify-center gap-3 border border-white/80 hover:bg-white/10 transition-colors text-white font-semibold tracking-wider-2 text-[12px] px-7 h-[54px] rounded-ds focus-gold"
             >
               <Icon name="pin" className="w-4 h-4" stroke={1.8} />
               VISITAR NA RECIFE MARINA

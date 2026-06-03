@@ -1,7 +1,9 @@
+import Reveal from './Reveal'
+
 const TIMELINE = [
-  { year: '1978', text: 'Vicente Gallo Neto começa na garagem de casa consertando pranchas de surf e windsurf.' },
-  { year: '1984', text: 'A paixão pelo mar vira loja: nasce a Marinas Wind Shop em Pernambuco, para atender quem vive o mar.' },
-  { year: 'Hoje', text: 'Referência em produtos, serviços e marcas náuticas, com clientes em todo o Brasil e presença na Recife Marina.' },
+  { year: '1978', text: 'Na garagem da família em Olinda, Vicente Gallo Neto começa a consertar pranchas de surf e windsurf — o primeiro passo de uma história construída à beira-mar.' },
+  { year: '1984', text: 'A paixão vira negócio: nasce a Marinas Wind Shop em Olinda, com a missão de atender quem realmente vive o universo náutico pernambucano.' },
+  { year: 'Hoje', text: 'Referência náutica em Pernambuco. Loja, oficina, peças, motores e moda na Recife Marina — com clientes em todo o Brasil.' },
 ]
 
 export default function History() {
@@ -9,7 +11,7 @@ export default function History() {
     <section id="historia" className="bg-[#EFE9DC]">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-0 md:min-h-[640px]">
 
-        {/* Image diptych — top on mobile, right on desktop */}
+        {/* Image diptych */}
         <div className="order-1 md:order-2 md:col-span-8 grid grid-cols-2 gap-2 md:gap-0 p-2 md:p-0">
           <figure className="relative overflow-hidden rounded-md md:rounded-none bg-navy/5 aspect-[3/4] md:aspect-auto">
             <img
@@ -30,14 +32,15 @@ export default function History() {
         </div>
 
         {/* Copy column */}
-        <div className="order-2 md:order-1 md:col-span-4 px-7 md:pl-14 md:pr-10 py-12 md:py-16 flex flex-col justify-center">
+        <Reveal className="order-2 md:order-1 md:col-span-4 px-7 md:pl-14 md:pr-10 py-12 md:py-16 flex flex-col justify-center">
           <p className="font-display italic text-gold text-[15px]">Nossa história</p>
-          <h2 className="mt-3 font-display text-navy text-[clamp(2rem,3.6vw,2.75rem)] leading-[1.08]">
-            De surfista a<br />referência náutica
+          <h2 className="mt-3 font-display text-navy text-[clamp(2.3rem,4vw,3.2rem)] leading-[1.08]">
+            Desde a garagem<br />até o mar aberto.
           </h2>
           <p className="mt-5 text-navy/70 text-[15px] leading-[1.55] max-w-[38ch]">
-            Mais de 40 anos de experiência no mar,<br className="hidden sm:block" />
-            em oficina, vela, motores e acessórios.
+            Mais de 40 anos levando o mar a sério —<br className="hidden sm:block" />
+            com oficina, vela, motores, peças e atendimento<br className="hidden sm:block" />
+            de quem nasceu nesse universo.
           </p>
 
           <ol className="mt-10 space-y-7">
@@ -55,7 +58,7 @@ export default function History() {
               </li>
             ))}
           </ol>
-        </div>
+        </Reveal>
 
       </div>
     </section>

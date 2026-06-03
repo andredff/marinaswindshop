@@ -1,11 +1,57 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Icon from './Icon'
+import Reveal from './Reveal'
 
+// ── Count-up ─────────────────────────────────────────────
+function parseStatValue(raw: string): { integer: number; suffix: string } {
+  const m = raw.match(/^(\d+)(.*)$/)
+  if (!m) return { integer: 0, suffix: raw }
+  return { integer: parseInt(m[1]), suffix: m[2] }
+}
+
+function CountUp({ raw, duration = 1600 }: { raw: string; duration?: number }) {
+  const { integer, suffix } = parseStatValue(raw)
+  const [count, setCount] = useState(0)
+  const ref = useRef<HTMLSpanElement>(null)
+  const started = useRef(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true
+          const startTime = performance.now()
+          const step = (now: number) => {
+            const p = Math.min((now - startTime) / duration, 1)
+            const eased = 1 - Math.pow(1 - p, 3)
+            setCount(Math.floor(eased * integer))
+            if (p < 1) requestAnimationFrame(step)
+            else setCount(integer)
+          }
+          requestAnimationFrame(step)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.4 },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [integer, duration])
+
+  // Special cases: "18,3m" keeps decimal suffix; "4x" (no leading digit) renders as-is
+  const display = raw === '18,3m' ? `${count},3m` : integer === 0 ? raw : `${count}${suffix}`
+
+  return <span ref={ref}>{display}</span>
+}
+
+// ── Data ─────────────────────────────────────────────────
 const STATS = [
   { k: '18,3m',  v: 'DE COMPRIMENTO' },
   { k: '12',     v: 'TRIPULANTES' },
   { k: '26 nós', v: 'VELOCIDADE MÁX.' },
-  { k: '1998',   v: 'PRIMEIRA REGATA' },
+  { k: '4x',     v: 'FITA AZUL REFENO' },
 ]
 
 const SPONSORS = ['NETUNO', 'PETROBRAS', 'LUBRAX', 'SYNTOHIA', 'RECIFE VALE']
@@ -34,31 +80,33 @@ export default function AveRara() {
               <span className="text-gold font-medium">ORGULHO QUE NOS MOVE</span>
             </span>
             <span className="hidden md:inline font-display italic text-white/70 text-[13px] normal-case tracking-normal">
-              Edição 01 — Frota Marinas Wind Shop
+              Tetracampeão Fita Azul — REFENO
             </span>
           </div>
 
           <div className="max-w-3xl">
             <p className="font-display italic text-gold/90 text-[15px] md:text-[17px]">Trimarã</p>
             <h2
-              className="mt-1 font-display text-[#F1E7D2] leading-[0.95] tracking-tight text-[clamp(3rem,9vw,7.5rem)]"
+              className="mt-1 font-display text-[#F1E7D2] leading-[0.95] tracking-tight text-[clamp(3.4rem,10vw,8.5rem)]"
               style={{ textShadow: '0 4px 28px rgba(11,29,51,0.5)' }}
             >
               Ave <span className="italic text-gold">Rara</span>
             </h2>
             <p
-              className="mt-7 font-display italic text-white/95 text-[clamp(1.3rem,2.4vw,1.9rem)] leading-[1.2] max-w-[34ch]"
+              className="mt-7 font-display italic text-white/95 text-[clamp(1.5rem,2.6vw,2.1rem)] leading-[1.2] max-w-[34ch]"
               style={{ textShadow: '0 2px 16px rgba(11,29,51,0.55)' }}
             >
-              Performance, história e paixão pelo mar.
+              DNA de regata. Orgulho pernambucano.
             </p>
           </div>
 
-          {/* Stats strip */}
+          {/* Stats strip — count-up on scroll */}
           <div className="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-y-6 border-t border-white/15 pt-7">
             {STATS.map((s) => (
               <div key={s.k} className="px-1 md:border-r md:last:border-r-0 md:border-white/15">
-                <div className="font-display text-[#F1E7D2] text-[clamp(1.6rem,3vw,2.2rem)] leading-none">{s.k}</div>
+                <div className="font-display text-[#F1E7D2] text-[clamp(1.6rem,3vw,2.2rem)] leading-none">
+                  <CountUp raw={s.k} />
+                </div>
                 <div className="mt-2 text-gold/85 text-[10.5px] tracking-wider-3 font-medium">{s.v}</div>
               </div>
             ))}
@@ -71,24 +119,25 @@ export default function AveRara() {
         <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-16 md:py-24 grid grid-cols-12 gap-8 md:gap-12 items-start">
 
           {/* Copy column */}
-          <div className="col-span-12 md:col-span-5">
+          <Reveal className="col-span-12 md:col-span-5">
             <p className="font-display italic text-gold text-[15px]">Uma lenda do mar nordestino</p>
-            <h3 className="mt-3 font-display text-navy text-[clamp(1.8rem,3.4vw,2.5rem)] leading-[1.1]">
-              Mais de 25 anos<br />cruzando o Atlântico.
+            <h3 className="mt-3 font-display text-navy text-[clamp(2.1rem,3.7vw,2.9rem)] leading-[1.1]">
+              Tetracampeão Fita Azul<br />da maior regata do Brasil.
             </h3>
             <p className="mt-7 text-navy/70 text-[15px] leading-[1.65] max-w-[44ch]">
-              Construído em fibra e madeira pelas mãos da nossa equipe,
-              o <span className="font-display italic text-navy">Ave Rara</span> é o trimarã que carrega a bandeira da
-              Marinas Wind Shop em regatas oceânicas desde 1998 — somando títulos, travessias e uma comunidade que cresce a cada temporada.
+              Construído em fibra e madeira, o <span className="font-display italic text-navy">Ave Rara</span> é
+              o trimarã pernambucano que carrega a bandeira da Marinas Wind Shop na REFENO — a maior regata
+              oceânica do Brasil, organizada pelo Cabanga Iate Clube — desde 1998. Tetracampeão da Fita Azul
+              e multicampeão na classe Multicasco.
             </p>
             <p className="mt-5 text-navy/65 text-[14.5px] leading-[1.65] max-w-[44ch]">
-              Apoie essa história, conheça a tripulação e participe das próximas etapas do campeonato.
+              A mesma cultura náutica que atravessa competições, oficinas e veleiros está no atendimento da Wind Shop.
             </p>
 
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
               <a
                 href="#trimara-historia"
-                className="group inline-flex items-center justify-center gap-3 h-[52px] px-7 bg-navy hover:bg-[#142a47] text-white transition-colors text-[12px] font-semibold tracking-wider-2 rounded-ds"
+                className="group inline-flex items-center justify-center gap-3 h-[52px] px-7 bg-navy hover:bg-[#142a47] text-white transition-colors text-[12px] font-semibold tracking-wider-2 rounded-ds focus-gold"
               >
                 CONHECER A HISTÓRIA
                 <span className="inline-block transition-transform group-hover:translate-x-1">
@@ -97,17 +146,17 @@ export default function AveRara() {
               </a>
               <a
                 href="#trimara-apoiar"
-                className="group inline-flex items-center justify-center gap-3 h-[52px] px-7 border border-navy/85 text-navy hover:bg-navy/5 transition-colors text-[12px] font-semibold tracking-wider-2 rounded-ds"
+                className="group inline-flex items-center justify-center gap-3 h-[52px] px-7 border border-navy/85 text-navy hover:bg-navy/5 transition-colors text-[12px] font-semibold tracking-wider-2 rounded-ds focus-gold"
               >
                 COMO APOIAR
               </a>
             </div>
-          </div>
+          </Reveal>
 
           <div className="hidden md:block md:col-span-1" />
 
           {/* Photo diptych */}
-          <div className="col-span-12 md:col-span-6">
+          <Reveal className="col-span-12 md:col-span-6" delay={150}>
             <div className="grid grid-cols-12 gap-4 md:gap-5">
               <figure className="col-span-12 relative bg-white p-[8px] shadow-[0_28px_50px_-18px_rgba(11,29,51,0.45)]">
                 <img
@@ -141,7 +190,7 @@ export default function AveRara() {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
 
         </div>
       </div>

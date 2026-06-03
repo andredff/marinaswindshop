@@ -9,11 +9,11 @@ export default {
         ocean: '#123A63',
         ice:   '#F6F8FA',
         sand:  '#E6E1D6',
-        gold:  '#C9A768',
+        gold:  { DEFAULT: '#C9A768', hover: '#b8954f' },
         aqua:  '#38B7C6',
       },
       fontFamily: {
-        display: ['"Playfair Display"', 'serif'],
+        display: ['"Cormorant Garamond"', 'serif'],
         sans:    ['Inter', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {
