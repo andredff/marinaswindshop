@@ -4,7 +4,7 @@ import Reveal from './Reveal'
 
 export default function Footer() {
   return (
-    <footer id="contato" className="relative bg-navy text-white overflow-hidden">
+    <footer id="contato" className="grain relative bg-navy text-white overflow-hidden">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"

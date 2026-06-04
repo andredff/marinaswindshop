@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://marinaswindshop.com.br/sitemap.xml

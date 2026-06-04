@@ -96,16 +96,7 @@ function CategoryCard({ src, alt, title, desc }: CategoryCardProps) {
         </div>
         <div className="flex-1 flex flex-col items-center text-center px-5 pt-6 pb-7">
           <h3 className="font-display text-navy text-[22px] leading-snug">{title}</h3>
-          <p className="mt-2 flex-1 text-navy/65 text-[13.5px] leading-[1.55] max-w-[28ch]">{desc}</p>
-          <a
-            href="#"
-            className="mt-5 inline-flex items-center gap-2 text-navy hover:text-gold text-[12px] font-semibold tracking-wider-2 transition-colors focus-gold rounded-sm"
-          >
-            EXPLORAR
-            <span className="inline-block transition-transform group-hover:translate-x-1">
-              <Icon name="arrow-right" className="w-4 h-4" stroke={1.6} />
-            </span>
-          </a>
+          <p className="mt-2 text-navy/65 text-[13.5px] leading-[1.55] max-w-[28ch]">{desc}</p>
         </div>
       </article>
     </div>

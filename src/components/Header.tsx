@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import Logo from './Logo'
 import Icon from './Icon'
 
-const NAV = ['LOJA', 'OFICINA', 'MARCAS', 'HISTÓRIA', 'TRIMARÃ AVE RARA', 'CONTATO']
+const NAV = ['OFICINA', 'MARCAS', 'HISTÓRIA', 'TRIMARÃ AVE RARA', 'CONTATO']
 
 export default function Header() {
   const [open, setOpen] = useState(false)
@@ -61,14 +61,14 @@ export default function Header() {
       >
         <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
           <div
-            className={`flex items-center justify-between gap-6 transition-all duration-300 ${
+            className={`relative flex items-center justify-between transition-all duration-300 ${
               scrolled ? 'h-[64px]' : 'h-[88px]'
             }`}
           >
             <Logo size={scrolled ? 'sm' : 'md'} />
 
-            {/* Desktop nav */}
-            <nav className="hidden lg:flex items-center gap-9 text-[12px] font-semibold tracking-wider-2 text-white/90">
+            {/* Desktop nav — truly centered on the page */}
+            <nav className="absolute left-1/2 -translate-x-1/2 hidden lg:flex items-center gap-9 text-[12px] font-semibold tracking-wider-2 text-white/90">
               {NAV.map((label) => (
                 <a key={label} href="#" className="nav-link hover:text-white transition-colors focus-gold rounded-sm">
                   {label}
@@ -77,21 +77,9 @@ export default function Header() {
             </nav>
 
             {/* Utility icons */}
-            <div className="flex items-center gap-5 text-white/90">
+            <div className="relative z-10 flex items-center gap-5 text-white/90">
               <button aria-label="Buscar" className="hover:text-gold transition-colors focus-gold rounded-sm p-0.5">
                 <Icon name="search" />
-              </button>
-              <button aria-label="Conta" className="hover:text-gold transition-colors focus-gold rounded-sm p-0.5">
-                <Icon name="user" />
-              </button>
-              <button aria-label="Favoritos" className="hidden sm:inline-flex hover:text-gold transition-colors focus-gold rounded-sm p-0.5">
-                <Icon name="heart" />
-              </button>
-              <button aria-label="Sacola" className="relative hover:text-gold transition-colors focus-gold rounded-sm p-0.5">
-                <Icon name="cart" />
-                <span className="absolute -top-1.5 -right-2 text-[10px] font-semibold bg-gold text-navy rounded-full w-4 h-4 grid place-items-center">
-                  2
-                </span>
               </button>
 
               {/* Hamburger */}

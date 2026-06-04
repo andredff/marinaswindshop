@@ -1,12 +1,14 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import Icon from './Icon'
 
 const heroImg = '/assets/hero-marina.png'
 
 export default function Hero() {
-  const imgRef = useRef<HTMLImageElement>(null)
+  const imgRef    = useRef<HTMLImageElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
+  const glowRef   = useRef<HTMLDivElement>(null)
 
-  // Parallax: image scrolls at 35% of page scroll speed
+  // Parallax
   useEffect(() => {
     const handle = () => {
       if (!imgRef.current) return
@@ -16,8 +18,28 @@ export default function Hero() {
     return () => window.removeEventListener('scroll', handle)
   }, [])
 
+  // Cursor glow
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    if (!glowRef.current || !sectionRef.current) return
+    const rect = sectionRef.current.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width) * 100
+    const y = ((e.clientY - rect.top) / rect.height) * 100
+    glowRef.current.style.background =
+      `radial-gradient(circle 520px at ${x}% ${y}%, rgba(201,167,104,0.13), transparent 65%)`
+  }, [])
+
+  const handleMouseLeave = useCallback(() => {
+    if (!glowRef.current) return
+    glowRef.current.style.background = 'none'
+  }, [])
+
   return (
-    <section className="relative isolate min-h-[760px] lg:min-h-[820px] overflow-hidden">
+    <section
+      ref={sectionRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="grain relative isolate min-h-[760px] lg:min-h-[820px] overflow-hidden"
+    >
       {/* Background image — oversized vertically to allow parallax movement */}
       <img
         ref={imgRef}
@@ -27,6 +49,9 @@ export default function Hero() {
         style={{ height: '120%', top: '-10%', willChange: 'transform' }}
         loading="eager"
       />
+
+      {/* Cursor glow layer */}
+      <div ref={glowRef} aria-hidden className="absolute inset-0 pointer-events-none transition-[background] duration-300 ease-out z-[1]" />
 
       {/* Cinematic overlays */}
       <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-navy/85 via-navy/30 to-navy/55" />
@@ -40,15 +65,14 @@ export default function Hero() {
       {/* Sub-strip: REVENDA AUTORIZADA */}
       <div className="absolute inset-x-0 top-[88px] z-20">
         <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
-          <div className="h-[46px] flex items-center justify-center gap-5 text-white/80 text-[11px] tracking-wider-3">
-            <span className="hidden sm:inline">REVENDA AUTORIZADA</span>
-            <span className="font-display font-bold tracking-wider-2 text-white">YANMAR</span>
-            <span className="text-gold">•</span>
-            <span className="font-display font-bold tracking-wider-2 text-white">NAUTOS</span>
-            <span className="text-gold">•</span>
-            <span className="font-display font-bold tracking-wider-2 text-white">V.ELO</span>
-            <span className="hidden md:inline text-white/30">|</span>
-            <span className="hidden md:inline font-medium text-gold/90">RECIFE MARINA</span>
+          <div className="h-[46px] flex items-center justify-center gap-4 text-[11px] tracking-wider-3">
+            <span className="text-white/50">REVENDA AUTORIZADA</span>
+            <span aria-hidden className="text-white/20">·</span>
+            <span className="font-semibold tracking-wider-2 text-white">YANMAR</span>
+            <span className="text-gold/60">•</span>
+            <span className="font-semibold tracking-wider-2 text-white">NAUTOS</span>
+            <span className="text-gold/60">•</span>
+            <span className="font-semibold tracking-wider-2 text-white">V.ELO</span>
           </div>
         </div>
       </div>
@@ -59,23 +83,28 @@ export default function Hero() {
         className="hidden md:flex absolute z-10 right-8 lg:right-14 top-1/2 -translate-y-1/2 flex-col items-center gap-10"
       >
         <div className="relative w-[150px] h-[150px] lg:w-[170px] lg:h-[170px]">
-          <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full text-gold">
+          {/* Outer rings + circular text — rotate slowly */}
+          <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full text-gold spin-slow" style={{ transformOrigin: '50% 50%' }}>
             <defs>
               <path id="seal-arc-top" d="M 100,100 m -78,0 a 78,78 0 1,1 156,0" />
               <path id="seal-arc-bot" d="M 100,100 m 78,0 a 78,78 0 1,1 -156,0" />
             </defs>
             <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" strokeOpacity="0.55" strokeWidth="1"/>
             <circle cx="100" cy="100" r="86" fill="none" stroke="currentColor" strokeOpacity="0.9" strokeWidth="1.2"/>
-            <circle cx="100" cy="100" r="58" fill="none" stroke="currentColor" strokeOpacity="0.55" strokeWidth="0.8"/>
             <text fill="currentColor" fontFamily="Georgia, serif" fontSize="11" letterSpacing="4">
               <textPath href="#seal-arc-top" startOffset="50%" textAnchor="middle">MARINAS WIND SHOP</textPath>
             </text>
             <text fill="currentColor" fontFamily="Georgia, serif" fontSize="10" letterSpacing="5">
               <textPath href="#seal-arc-bot" startOffset="50%" textAnchor="middle">RECIFE · PERNAMBUCO · BR</textPath>
             </text>
-            {[0, 90, 180, 270].map((a) => (
-              <line key={a} x1="100" y1="12" x2="100" y2="18" stroke="currentColor" strokeOpacity="0.7" strokeWidth="1" transform={`rotate(${a} 100 100)`} />
+            {[0, 45, 90, 135, 180, 225, 270, 315].map((a) => (
+              <line key={a} x1="100" y1="8" x2="100" y2={a % 90 === 0 ? 16 : 13} stroke="currentColor" strokeOpacity={a % 90 === 0 ? 0.8 : 0.4} strokeWidth="1" transform={`rotate(${a} 100 100)`} />
             ))}
+          </svg>
+
+          {/* Inner sailboat + "est. 1984" — static */}
+          <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full text-gold">
+            <circle cx="100" cy="100" r="58" fill="none" stroke="currentColor" strokeOpacity="0.55" strokeWidth="0.8"/>
             <g transform="translate(100 100)" stroke="currentColor" strokeWidth="1.4" fill="none" strokeLinecap="round" strokeLinejoin="round">
               <path d="M -22 10 L 22 10 L 14 18 L -14 18 Z" />
               <path d="M 0 -22 L 0 10" />

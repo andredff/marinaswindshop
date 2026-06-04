@@ -16,6 +16,50 @@ p { text-wrap: pretty; }
   font-optical-sizing: auto;
 }
 
+/* ── Grain texture overlay (pseudo-element) ─────────────── */
+.grain {
+  position: relative;
+}
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.038;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* ── Seal slow rotation ──────────────────────────────────── */
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.spin-slow {
+  animation: spin-slow 80s linear infinite;
+  transform-origin: center;
+}
+
+/* ── WhatsApp float entrance ─────────────────────────────── */
+@keyframes float-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.9); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);   }
+}
+.float-in {
+  animation: float-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ── WhatsApp pulse ring ─────────────────────────────────── */
+@keyframes wa-pulse {
+  0%   { box-shadow: 0 0 0 0   rgba(37,211,102,0.5); }
+  70%  { box-shadow: 0 0 0 14px rgba(37,211,102,0);   }
+  100% { box-shadow: 0 0 0 0   rgba(37,211,102,0);   }
+}
+.wa-pulse {
+  animation: wa-pulse 2.4s ease-out infinite;
+}
+
 a, button { -webkit-tap-highlight-color: rgba(201,167,104,0.25); }
 img { max-width: 100%; }
 

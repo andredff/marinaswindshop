@@ -61,7 +61,7 @@ export default function AveRara() {
     <section id="ave-rara" className="relative isolate text-navy overflow-hidden">
 
       {/* Cinematic hero panel */}
-      <div className="relative isolate overflow-hidden bg-navy">
+      <div className="grain relative isolate overflow-hidden bg-navy">
         <img
           src="/assets/trimara/ave-rara-skyline.png"
           alt="Trimarã Ave Rara navegando com vela aberta diante do skyline"
