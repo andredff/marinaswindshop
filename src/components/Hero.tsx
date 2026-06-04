@@ -46,7 +46,7 @@ export default function Hero() {
         src={heroImg}
         alt="Marina ao entardecer com veleiros ancorados"
         className="absolute left-0 right-0 w-full object-cover"
-        style={{ height: '120%', top: '-10%', willChange: 'transform' }}
+        style={{ height: '130%', top: '-35%', willChange: 'transform' }}
         loading="eager"
       />
 
