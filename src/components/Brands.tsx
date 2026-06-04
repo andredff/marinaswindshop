@@ -15,13 +15,29 @@ export default function Brands() {
             Revendedor autorizado de marcas nacionais e internacionais para motores, vela, ferragens, embarcações e moda náutica.
           </p>
 
-          <div className="mt-10 md:mt-12">
-            <img
-              src="/assets/brands/strip.jpg"
-              alt="Marcas representadas pela Marinas Wind Shop: Yanmar, Nautos, V.elo, Suzuki, Yamaha, Mercury, Osklen"
-              className="w-full max-w-[1200px] mx-auto h-auto object-contain"
-              loading="lazy"
-            />
+          <div className="mt-10 md:mt-12 flex flex-wrap justify-center items-center gap-8 md:gap-14">
+            {[
+              { src: '/assets/logos_marcas_separadas/yamaha_logo.png', alt: 'Yamaha' },
+              { src: '/assets/logos_marcas_separadas/suzuki_logo.png', alt: 'Suzuki' },
+              { src: '/assets/logos_marcas_separadas/mercury_marine_logo.png', alt: 'Mercury Marine' },
+              { src: '/assets/logos_marcas_separadas/yanmar_logo.png', alt: 'Yanmar' },
+              { src: '/assets/logos_marcas_separadas/nautos_logo.png', alt: 'Nautos' },
+              { src: '/assets/logos_marcas_separadas/velo_sailing_logo.png', alt: 'V.elo Sailing' },
+              { src: '/assets/logos_marcas_separadas/osklen_logo.png', alt: 'Osklen' },
+            ].map(({ src, alt }, i) => (
+              <div
+                key={alt}
+                className="group flex items-center justify-center"
+                style={{ animationDelay: `${i * 80}ms` }}
+              >
+                <img
+                  src={src}
+                  alt={alt}
+                  className="h-10 md:h-12 w-auto object-contain transition-all duration-300 ease-out group-hover:scale-110 group-hover:drop-shadow-md"
+                  loading="lazy"
+                />
+              </div>
+            ))}
           </div>
 
           <div className="mt-10 flex justify-center">
