@@ -94,6 +94,57 @@ img { max-width: 100%; }
   transform: translateY(0);
 }
 
+/* ── Ave Rara — entrada cinematográfica ─────────────────── */
+@keyframes ar-zoom {
+  from { transform: scale(1.08); filter: brightness(0.55); }
+  to   { transform: scale(1);    filter: brightness(1); }
+}
+@keyframes ar-rise {
+  from { opacity: 0; transform: translateY(28px); filter: blur(5px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0px); }
+}
+@keyframes ar-expand {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+
+/* Estado inicial — invisível antes de .ar-active ser aplicado */
+.ar-img   { filter: brightness(0.55); transform: scale(1.08); }
+.ar-rise  { opacity: 0; }
+.ar-sep   { transform: scaleX(0); transform-origin: left; opacity: 0; }
+
+/* Sequência de entrada — cada elemento em seu momento */
+.ar-active .ar-img   { animation: ar-zoom 1.7s cubic-bezier(0.25,0.46,0.45,0.94) 0s    both; }
+.ar-active .ar-sep   { animation: ar-expand 0.55s ease-out                        0.15s both; }
+.ar-active .ar-lbl   { animation: ar-rise   0.75s ease-out                        0.25s both; }
+.ar-active .ar-kicker{ animation: ar-rise   0.75s ease-out                        0.45s both; }
+.ar-active .ar-title { animation: ar-rise   1.1s  cubic-bezier(0.22,0.61,0.36,1)  0.6s  both; }
+.ar-active .ar-sub   { animation: ar-rise   0.9s  ease-out                        0.95s both; }
+.ar-active .ar-st0   { animation: ar-rise   0.7s  ease-out                        1.1s  both; }
+.ar-active .ar-st1   { animation: ar-rise   0.7s  ease-out                        1.25s both; }
+.ar-active .ar-st2   { animation: ar-rise   0.7s  ease-out                        1.4s  both; }
+.ar-active .ar-st3   { animation: ar-rise   0.7s  ease-out                        1.55s both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ar-img, .ar-rise, .ar-sep {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+/* ── Ave Rara — efeitos contínuos ───────────────────────── */
+
+@keyframes wave-drift  { from { transform: translateX(0); }    to { transform: translateX(-50%); } }
+@keyframes wave-swell  {
+  0%, 100% { transform: translateX(-30%) scaleY(1);   }
+  50%      { transform: translateX(-42%) scaleY(1.2); }
+}
+.wave-back  { animation: wave-drift 20s linear      infinite; }
+.wave-front { animation: wave-swell 13s ease-in-out infinite; }
+.wave-foam  { animation: wave-drift 10s linear      infinite; animation-delay: -5s; }
+
 /* ── Shared radial gold glows (referenced by JS const) ──── */
 :root {
   --glow-hero:      radial-gradient(ellipse 55% 45% at 8% 35%,  rgba(201,167,104,0.18), transparent 65%);

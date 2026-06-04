@@ -40,7 +40,6 @@ function CountUp({ raw, duration = 1600 }: { raw: string; duration?: number }) {
     return () => observer.disconnect()
   }, [integer, duration])
 
-  // Special cases: "18,3m" keeps decimal suffix; "4x" (no leading digit) renders as-is
   const display = raw === '18,3m' ? `${count},3m` : integer === 0 ? raw : `${count}${suffix}`
 
   return <span ref={ref}>{display}</span>
@@ -48,52 +47,86 @@ function CountUp({ raw, duration = 1600 }: { raw: string; duration?: number }) {
 
 // ── Data ─────────────────────────────────────────────────
 const STATS = [
-  { k: '18,3m',  v: 'DE COMPRIMENTO' },
-  { k: '12',     v: 'TRIPULANTES' },
-  { k: '26 nós', v: 'VELOCIDADE MÁX.' },
-  { k: '4x',     v: 'FITA AZUL REFENO' },
+  { k: '18,3m',  v: 'DE COMPRIMENTO',  cls: 'ar-st0' },
+  { k: '12',     v: 'TRIPULANTES',      cls: 'ar-st1' },
+  { k: '26 nós', v: 'VELOCIDADE MÁX.',  cls: 'ar-st2' },
+  { k: '4x',     v: 'FITA AZUL REFENO', cls: 'ar-st3' },
 ]
+
 
 const SPONSORS = ['NETUNO', 'PETROBRAS', 'LUBRAX', 'SYNTOHIA', 'RECIFE VALE']
 
 export default function AveRara() {
+  const heroRef = useRef<HTMLDivElement>(null)
+  const [active, setActive] = useState(false)
+
+  useEffect(() => {
+    const el = heroRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setActive(true); obs.disconnect() } },
+      { threshold: 0.1 },
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
   return (
     <section id="ave-rara" className="relative isolate text-navy overflow-hidden">
 
-      {/* Cinematic hero panel */}
-      <div className="grain relative isolate overflow-hidden bg-navy">
+      {/* ── Cinematic hero panel ──────────────────────────── */}
+      <div ref={heroRef} className={`grain relative isolate overflow-hidden bg-navy${active ? ' ar-active' : ''}`}>
+
+        {/* Background image — zoom-out reveal */}
         <img
           src="/assets/trimara/ave-rara-skyline.png"
           alt="Trimarã Ave Rara navegando com vela aberta diante do skyline"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="ar-img absolute inset-0 w-full h-full object-cover"
           style={{ objectPosition: '60% center' }}
           loading="lazy"
         />
+
+        {/* Gradient overlays */}
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-navy/35 via-navy/15 to-navy/85" />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-navy/55 via-transparent to-transparent" />
 
-        <div className="relative mx-auto max-w-[1440px] px-6 md:px-12 pt-20 md:pt-28 pb-16 md:pb-20 min-h-[620px] md:min-h-[720px] flex flex-col justify-end">
+
+        {/* Ondas animadas na base */}
+        <div aria-hidden className="absolute bottom-0 left-0 right-0 h-28 overflow-hidden pointer-events-none z-10">
+          <svg className="wave-back absolute bottom-0 h-full" style={{ width: '200%' }} viewBox="0 0 2880 112" preserveAspectRatio="none">
+            <path d="M0 56 C360 0 720 112 1080 56 C1440 0 1800 112 2160 56 C2520 0 2880 112 2880 56 L2880 112 L0 112 Z" fill="rgba(255,255,255,0.04)" />
+          </svg>
+          <svg className="wave-front absolute bottom-0 h-full" style={{ width: '200%' }} viewBox="0 0 2880 112" preserveAspectRatio="none">
+            <path d="M0 70 C240 28 480 112 720 70 C960 28 1200 112 1440 70 C1680 28 1920 112 2160 70 C2400 28 2640 112 2880 70 L2880 112 L0 112 Z" fill="rgba(201,167,104,0.07)" />
+          </svg>
+          <svg className="wave-foam absolute bottom-0 h-[40%]" style={{ width: '200%' }} viewBox="0 0 2880 48" preserveAspectRatio="none">
+            <path d="M0 30 C180 0 360 48 540 30 C720 0 900 48 1080 30 C1260 0 1440 48 1620 30 C1800 0 1980 48 2160 30 C2340 0 2520 48 2700 30 C2880 0 2880 48 2880 30 L2880 48 L0 48 Z" fill="rgba(255,255,255,0.03)" />
+          </svg>
+        </div>
+
+        <div className="relative z-20 mx-auto max-w-[1440px] px-6 md:px-12 pt-20 md:pt-28 pb-16 md:pb-20 min-h-[620px] md:min-h-[720px] flex flex-col justify-end">
+
           {/* Editorial label */}
           <div className="absolute top-7 md:top-9 left-6 md:left-12 right-6 md:right-12 flex items-center justify-between text-white/85 text-[11px] tracking-wider-3">
-            <span className="flex items-center gap-3">
-              <span className="w-8 h-px bg-gold/80" />
+            <span className="ar-lbl ar-rise flex items-center gap-3">
+              <span className="ar-sep w-8 h-px bg-gold/80" />
               <span className="text-gold font-medium">ORGULHO QUE NOS MOVE</span>
             </span>
-            <span className="hidden md:inline font-display italic text-white/70 text-[13px] normal-case tracking-normal">
+            <span className="ar-lbl ar-rise hidden md:inline font-display italic text-white/70 text-[13px] normal-case tracking-normal">
               Tetracampeão Fita Azul — REFENO
             </span>
           </div>
 
           <div className="max-w-3xl">
-            <p className="font-display italic text-gold/90 text-[15px] md:text-[17px]">Trimarã</p>
+            <p className="ar-kicker ar-rise font-display italic text-gold/90 text-[15px] md:text-[17px]">Trimarã</p>
             <h2
-              className="mt-1 font-display text-[#F1E7D2] leading-[0.95] tracking-tight text-[clamp(3.4rem,10vw,8.5rem)]"
+              className="ar-title ar-rise mt-1 font-display text-[#F1E7D2] leading-[0.95] tracking-tight text-[clamp(3.4rem,10vw,8.5rem)]"
               style={{ textShadow: '0 4px 28px rgba(11,29,51,0.5)' }}
             >
               Ave <span className="italic text-gold">Rara</span>
             </h2>
             <p
-              className="mt-7 font-display italic text-white/95 text-[clamp(1.5rem,2.6vw,2.1rem)] leading-[1.2] max-w-[34ch]"
+              className="ar-sub ar-rise mt-7 font-display italic text-white/95 text-[clamp(1.5rem,2.6vw,2.1rem)] leading-[1.2] max-w-[34ch]"
               style={{ textShadow: '0 2px 16px rgba(11,29,51,0.55)' }}
             >
               DNA de regata. Orgulho pernambucano.
@@ -103,7 +136,7 @@ export default function AveRara() {
           {/* Stats strip — count-up on scroll */}
           <div className="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-y-6 border-t border-white/15 pt-7">
             {STATS.map((s) => (
-              <div key={s.k} className="px-1 md:border-r md:last:border-r-0 md:border-white/15">
+              <div key={s.k} className={`${s.cls} ar-rise px-1 md:border-r md:last:border-r-0 md:border-white/15`}>
                 <div className="font-display text-[#F1E7D2] text-[clamp(1.6rem,3vw,2.2rem)] leading-none">
                   <CountUp raw={s.k} />
                 </div>
@@ -111,14 +144,14 @@ export default function AveRara() {
               </div>
             ))}
           </div>
+
         </div>
       </div>
 
-      {/* Editorial body */}
+      {/* ── Editorial body ────────────────────────────────── */}
       <div className="bg-ice">
         <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-16 md:py-24 grid grid-cols-12 gap-8 md:gap-12 items-start">
 
-          {/* Copy column */}
           <Reveal className="col-span-12 md:col-span-5">
             <p className="font-display italic text-gold text-[15px]">Uma lenda do mar nordestino</p>
             <h3 className="mt-3 font-display text-navy text-[clamp(2.1rem,3.7vw,2.9rem)] leading-[1.1]">
@@ -155,7 +188,6 @@ export default function AveRara() {
 
           <div className="hidden md:block md:col-span-1" />
 
-          {/* Photo diptych */}
           <Reveal className="col-span-12 md:col-span-6" delay={150}>
             <div className="grid grid-cols-12 gap-4 md:gap-5">
               <figure className="col-span-12 relative bg-white p-[8px] shadow-[0_28px_50px_-18px_rgba(11,29,51,0.45)]">
@@ -195,7 +227,7 @@ export default function AveRara() {
         </div>
       </div>
 
-      {/* Sponsor strip */}
+      {/* ── Sponsor strip ────────────────────────────────── */}
       <div className="bg-navy text-white/80">
         <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="text-gold text-[10.5px] tracking-wider-3 font-medium whitespace-nowrap">PATROCINADORES OFICIAIS</p>
