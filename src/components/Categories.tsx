@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import Icon, { type IconName } from './Icon'
 import Reveal from './Reveal'
 
@@ -37,21 +38,22 @@ function TrustBar() {
 }
 
 const CATEGORIES = [
-  { src: '/assets/categories/engine.png',  alt: 'Motor náutico Yanmar',       title: 'Motores & Peças',     desc: 'Yanmar, Suzuki, Mercury e peças originais — com indicação técnica para a escolha certa.' },
-  { src: '/assets/categories/pulley.png',  alt: 'Moitão e cabo de veleiro',   title: 'Vela & Ferragens',    desc: 'Cabos, escotas, moitões, mordedores, trilhos e ferragens. Curadoria de quem tem DNA de regata.' },
-  { src: '/assets/categories/vest.png',    alt: 'Colete salva-vidas náutico', title: 'Salvatagem',          desc: 'Coletes, salvatagem e equipamentos homologados. Navegar bem é navegar seguro.' },
-  { src: '/assets/categories/boat.png',    alt: 'Bote inflável',              title: 'Botes e Caiaques',    desc: 'Botes infláveis, caiaques e acessórios para lazer, pesca e aventura no mar.' },
-  { src: '/assets/categories/apparel.png', alt: 'Moda náutica e boné',        title: 'Moda Náutica',        desc: 'Roupas leves, proteção e estilo para viver o mar dentro e fora d\'água.' },
+  { src: '/assets/categories/engine.png',  alt: 'Motor náutico Yanmar',       title: 'Motores & Peças',     slug: 'motores',    desc: 'Yanmar, Suzuki, Mercury e peças originais — com indicação técnica para a escolha certa.' },
+  { src: '/assets/categories/pulley.png',  alt: 'Moitão e cabo de veleiro',   title: 'Vela & Ferragens',    slug: 'vela',       desc: 'Cabos, escotas, moitões, mordedores, trilhos e ferragens. Curadoria de quem tem DNA de regata.' },
+  { src: '/assets/categories/vest.png',    alt: 'Colete salva-vidas náutico', title: 'Salvatagem',          slug: 'salvatagem', desc: 'Coletes, salvatagem e equipamentos homologados. Navegar bem é navegar seguro.' },
+  { src: '/assets/categories/boat.png',    alt: 'Bote inflável',              title: 'Botes e Caiaques',    slug: 'botes',      desc: 'Botes infláveis, caiaques e acessórios para lazer, pesca e aventura no mar.' },
+  { src: '/assets/categories/apparel.png', alt: 'Moda náutica e boné',        title: 'Moda Náutica',        slug: 'moda',       desc: 'Roupas leves, proteção e estilo para viver o mar dentro e fora d\'água.' },
 ]
 
 interface CategoryCardProps {
   src: string
   alt: string
   title: string
+  slug: string
   desc: string
 }
 
-function CategoryCard({ src, alt, title, desc }: CategoryCardProps) {
+function CategoryCard({ src, alt, title, slug, desc }: CategoryCardProps) {
   const wrapRef = useRef<HTMLDivElement>(null)
 
   const onMouseEnter = () => {
@@ -85,7 +87,11 @@ function CategoryCard({ src, alt, title, desc }: CategoryCardProps) {
       style={{ willChange: 'transform' }}
       className="h-full"
     >
-      <article className="group bg-white rounded-ds overflow-hidden shadow-[0_1px_0_0_rgba(11,29,51,0.06),0_18px_40px_-24px_rgba(11,29,51,0.18)] flex flex-col h-full">
+      <Link
+        to={`/catalogo?categoria=${slug}`}
+        aria-label={`Ver produtos de ${title}`}
+        className="group block bg-white rounded-ds overflow-hidden shadow-[0_1px_0_0_rgba(11,29,51,0.06),0_18px_40px_-24px_rgba(11,29,51,0.18)] flex flex-col h-full focus-gold"
+      >
         <div className="relative aspect-[4/3.4] overflow-hidden bg-sand/30">
           <img
             src={src}
@@ -97,8 +103,14 @@ function CategoryCard({ src, alt, title, desc }: CategoryCardProps) {
         <div className="flex-1 flex flex-col items-center text-center px-5 pt-6 pb-7">
           <h3 className="font-display text-navy text-[22px] leading-snug">{title}</h3>
           <p className="mt-2 text-navy/65 text-[13.5px] leading-[1.55] max-w-[28ch]">{desc}</p>
+          <span className="mt-4 inline-flex items-center gap-1.5 text-gold text-[11px] font-semibold tracking-wider-2 uppercase">
+            Ver produtos
+            <span className="inline-block transition-transform group-hover:translate-x-1">
+              <Icon name="arrow-right" className="w-3.5 h-3.5" stroke={1.9} />
+            </span>
+          </span>
         </div>
-      </article>
+      </Link>
     </div>
   )
 }
@@ -125,6 +137,18 @@ export default function Categories() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal>
+          <div className="mt-12 text-center">
+            <Link
+              to="/catalogo"
+              className="inline-flex items-center gap-2.5 h-[52px] px-8 rounded-ds bg-navy hover:bg-ocean active:translate-y-[1px] transition-all text-white text-[12px] font-semibold tracking-wider-2 shadow-soft focus-gold"
+            >
+              VER CATÁLOGO COMPLETO
+              <Icon name="arrow-right" className="w-4 h-4" stroke={1.9} />
+            </Link>
+          </div>
+        </Reveal>
       </div>
     </section>
   )
