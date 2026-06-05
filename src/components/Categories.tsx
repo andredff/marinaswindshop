@@ -103,7 +103,7 @@ function CategoryCard({ src, alt, title, slug, desc }: CategoryCardProps) {
         <div className="flex-1 flex flex-col items-center text-center px-5 pt-6 pb-7">
           <h3 className="font-display text-navy text-[22px] leading-snug">{title}</h3>
           <p className="mt-2 text-navy/65 text-[13.5px] leading-[1.55] max-w-[28ch]">{desc}</p>
-          <span className="mt-4 inline-flex items-center gap-1.5 text-gold text-[11px] font-semibold tracking-wider-2 uppercase">
+          <span className="mt-auto pt-4 inline-flex items-center gap-1.5 text-gold text-[11px] font-semibold tracking-wider-2 uppercase">
             Ver produtos
             <span className="inline-block transition-transform group-hover:translate-x-1">
               <Icon name="arrow-right" className="w-3.5 h-3.5" stroke={1.9} />

@@ -38,7 +38,7 @@ export default function Hero() {
       ref={sectionRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="grain relative isolate min-h-[760px] lg:min-h-[820px] overflow-hidden"
+      className="grain relative isolate min-h-[680px] lg:min-h-[720px] overflow-hidden"
     >
       {/* Background image — oversized vertically to allow parallax movement */}
       <img
@@ -46,7 +46,7 @@ export default function Hero() {
         src={heroImg}
         alt="Marina ao entardecer com veleiros ancorados"
         className="absolute left-0 right-0 w-full object-cover"
-        style={{ height: '130%', top: '-35%', willChange: 'transform' }}
+        style={{ height: '145%', top: '-35%', willChange: 'transform' }}
         loading="eager"
       />
 
@@ -80,7 +80,7 @@ export default function Hero() {
       {/* Decorative seal + vertical credential (desktop) */}
       <div
         aria-hidden
-        className="hidden md:flex absolute z-10 right-8 lg:right-14 top-1/2 -translate-y-1/2 flex-col items-center gap-10"
+        className="hidden md:flex absolute z-10 right-8 lg:right-14 top-[56%] -translate-y-1/2 flex-col items-center gap-10"
       >
         <div className="relative w-[150px] h-[150px] lg:w-[170px] lg:h-[170px]">
           {/* Outer rings + circular text — rotate slowly */}
@@ -128,9 +128,9 @@ export default function Hero() {
       </div>
 
       {/* Hero content */}
-      <div className="relative z-10 mx-auto max-w-[1440px] px-6 lg:px-10 pt-[200px] lg:pt-[230px] pb-24">
+      <div className="relative z-10 mx-auto max-w-[1440px] px-6 lg:px-10 pt-[150px] lg:pt-[168px] pb-16 [@media(max-height:820px)]:!pt-[148px] [@media(max-height:820px)]:!pb-8 [@media(max-height:720px)]:!pt-[136px] [@media(max-height:720px)]:!pb-6">
         <div className="max-w-3xl">
-          <h1 className="font-display font-medium leading-[0.95] tracking-tight text-[clamp(3.2rem,9vw,8rem)]">
+          <h1 className="font-display font-medium leading-[0.95] tracking-tight text-[clamp(3.2rem,9vw,8rem)] [@media(max-height:820px)]:text-[clamp(3.1rem,8vw,6.5rem)]">
             <span className="block text-[#F1E7D2]" style={{ textShadow: '0 2px 18px rgba(11,29,51,0.45)' }}>
               Marinas
             </span>
@@ -140,7 +140,7 @@ export default function Hero() {
           </h1>
 
           {/* Gold divider */}
-          <div className="mt-8 flex items-center gap-4 max-w-[360px]">
+          <div className="mt-8 [@media(max-height:820px)]:mt-5 flex items-center gap-4 max-w-[360px]">
             <span className="h-px bg-gold/70 flex-1" />
             <span className="text-gold text-[13px] tracking-wider-3 font-medium whitespace-nowrap">DESDE 1984</span>
             <span className="h-px bg-gold/70 flex-1" />
@@ -148,19 +148,19 @@ export default function Hero() {
 
           {/* Tagline */}
           <p
-            className="mt-8 font-display italic text-[#F4EBD8] text-[clamp(1.75rem,3.5vw,2.7rem)] leading-[1.15] max-w-[22ch]"
+            className="mt-8 [@media(max-height:820px)]:mt-5 font-display italic text-[#F4EBD8] text-[clamp(1.75rem,3.5vw,2.7rem)] [@media(max-height:820px)]:text-[clamp(1.65rem,3.3vw,2.45rem)] leading-[1.15] max-w-[22ch]"
             style={{ textShadow: '0 2px 18px rgba(11,29,51,0.5)' }}
           >
             O mar exige confiança.<br />A Wind Shop entrega.
           </p>
 
           {/* Value prop */}
-          <p className="mt-5 text-white/65 text-[14px] leading-[1.65] max-w-[38ch]">
+          <p className="mt-5 [@media(max-height:820px)]:mt-3 text-white/65 text-[14px] leading-[1.65] max-w-[38ch]">
             Loja, oficina, peças, motores e moda náutica na Recife Marina — para quem leva o mar a sério.
           </p>
 
           {/* CTAs */}
-          <div className="mt-8 flex flex-col sm:flex-row gap-4">
+          <div className="mt-8 [@media(max-height:820px)]:mt-5 flex flex-col sm:flex-row gap-4">
             <a
               href="#contato"
               className="inline-flex items-center justify-center gap-3 bg-gold hover:bg-gold-hover active:translate-y-[1px] transition-all text-navy font-semibold tracking-wider-2 text-[12px] px-7 h-[54px] rounded-ds shadow-soft focus-gold"
