@@ -110,7 +110,7 @@ export default function FAQ() {
           <div className="mt-10 text-center">
             <p className="text-navy/60 text-[14px]">Ainda tem dúvidas?</p>
             <a
-              href="https://wa.me/5581999957001"
+              href="https://wa.me/558189426994"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-4 inline-flex items-center gap-3 h-[52px] px-8 rounded-ds bg-gold hover:bg-gold-hover text-navy text-[12px] font-semibold tracking-wider-2 transition-colors shadow-soft focus-gold"

@@ -93,7 +93,7 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         type: 'cta',
         label: 'PEDIR ORIENTAÇÃO PELO WHATSAPP',
-        href: 'https://wa.me/5581999957001',
+        href: 'https://wa.me/558189426994',
       },
     ],
   },
@@ -191,7 +191,7 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         type: 'cta',
         label: 'VER EQUIPAMENTOS DE SALVATAGEM',
-        href: 'https://wa.me/5581999957001',
+        href: 'https://wa.me/558189426994',
       },
     ],
   },
@@ -269,7 +269,7 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         type: 'cta',
         label: 'VER MODA NÁUTICA NA LOJA',
-        href: 'https://wa.me/5581999957001',
+        href: 'https://wa.me/558189426994',
       },
     ],
   },

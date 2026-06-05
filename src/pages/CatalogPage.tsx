@@ -11,7 +11,7 @@ import {
   type Product,
 } from '../data/products'
 
-const WHATSAPP_NUMBER = '5581999957001'
+const WHATSAPP_NUMBER = '558189426994'
 
 /** Build a wa.me link with a message pre-filled for a given product. */
 function whatsappLink(product: Product): string {

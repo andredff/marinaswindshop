@@ -32,7 +32,7 @@ export default function Footer() {
                 </li>
                 <li className="flex items-center gap-3">
                   <Icon name="whatsapp" className="w-4 h-4 text-gold shrink-0" />
-                  <a href="tel:+5581999957001" className="hover:text-gold transition-colors focus-gold rounded-sm">(81) 9 9995-7001</a>
+                  <a href="tel:+558189426994" className="hover:text-gold transition-colors focus-gold rounded-sm">(81) 8942-6994</a>
                 </li>
                 <li className="flex items-center gap-3">
                   <Icon name="phone" className="w-4 h-4 text-gold shrink-0" stroke={1.7} />
@@ -52,7 +52,7 @@ export default function Footer() {
               <h4 className="font-display text-white text-[18px]">Fale com a gente</h4>
               <p className="mt-1 text-white/65 text-[13.5px]">Atendimento via WhatsApp</p>
               <a
-                href="https://wa.me/5581999957001"
+                href="https://wa.me/558189426994"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-5 inline-flex items-center gap-3 h-[48px] px-6 rounded-ds bg-gold hover:bg-gold-hover active:translate-y-[1px] transition-all text-navy text-[12px] font-semibold tracking-wider-2 shadow-soft focus-gold"
