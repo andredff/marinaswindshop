@@ -38,15 +38,15 @@ export default function Hero() {
       ref={sectionRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="grain relative isolate min-h-[680px] lg:min-h-[720px] overflow-hidden"
+      className="grain relative isolate min-h-[100svh] md:min-h-[680px] lg:min-h-[720px] overflow-hidden"
     >
       {/* Background image — oversized vertically to allow parallax movement */}
       <img
         ref={imgRef}
         src={heroImg}
         alt="Marina ao entardecer com veleiros ancorados"
-        className="absolute left-0 right-0 w-full object-cover"
-        style={{ height: '145%', top: '-35%', willChange: 'transform' }}
+        className="absolute left-0 right-0 w-full object-cover object-bottom bottom-0 h-[125%] md:object-center md:bottom-auto md:top-[-35%] md:h-[145%]"
+        style={{ willChange: 'transform' }}
         loading="eager"
       />
 
@@ -65,9 +65,9 @@ export default function Hero() {
       {/* Sub-strip: REVENDA AUTORIZADA */}
       <div className="absolute inset-x-0 top-[88px] z-20">
         <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
-          <div className="h-[46px] flex items-center justify-center gap-4 text-[11px] tracking-wider-3">
-            <span className="text-white/50">REVENDA AUTORIZADA</span>
-            <span aria-hidden className="text-white/20">·</span>
+          <div className="h-[46px] flex items-center justify-center gap-2.5 sm:gap-4 text-[10px] sm:text-[11px] tracking-wider-2 sm:tracking-wider-3">
+            <span className="hidden sm:inline text-white/50">REVENDA AUTORIZADA</span>
+            <span aria-hidden className="hidden sm:inline text-white/20">·</span>
             <span className="font-semibold tracking-wider-2 text-white">YANMAR</span>
             <span className="text-gold/60">•</span>
             <span className="font-semibold tracking-wider-2 text-white">NAUTOS</span>
@@ -128,9 +128,9 @@ export default function Hero() {
       </div>
 
       {/* Hero content */}
-      <div className="relative z-10 mx-auto max-w-[1440px] px-6 lg:px-10 pt-[150px] lg:pt-[168px] pb-16 [@media(max-height:820px)]:!pt-[148px] [@media(max-height:820px)]:!pb-8 [@media(max-height:720px)]:!pt-[136px] [@media(max-height:720px)]:!pb-6">
+      <div className="relative z-10 mx-auto max-w-[1440px] px-6 lg:px-10 pt-[30svh] md:pt-[150px] lg:pt-[168px] pb-16 [@media(max-height:820px)]:!pt-[148px] [@media(max-height:820px)]:!pb-8 [@media(max-height:720px)]:!pt-[136px] [@media(max-height:720px)]:!pb-6">
         <div className="max-w-3xl">
-          <h1 className="font-display font-medium leading-[0.95] tracking-tight text-[clamp(3.2rem,9vw,8rem)] [@media(max-height:820px)]:text-[clamp(3.1rem,8vw,6.5rem)]">
+          <h1 className="font-display font-medium leading-[0.95] tracking-tight text-[clamp(2.9rem,9vw,8rem)] [@media(max-height:820px)]:text-[clamp(3.1rem,8vw,6.5rem)]">
             <span className="block text-[#F1E7D2]" style={{ textShadow: '0 2px 18px rgba(11,29,51,0.45)' }}>
               Marinas
             </span>
@@ -140,7 +140,7 @@ export default function Hero() {
           </h1>
 
           {/* Gold divider */}
-          <div className="mt-8 [@media(max-height:820px)]:mt-5 flex items-center gap-4 max-w-[360px]">
+          <div className="mt-6 sm:mt-8 [@media(max-height:820px)]:mt-5 flex items-center gap-4 max-w-[360px]">
             <span className="h-px bg-gold/70 flex-1" />
             <span className="text-gold text-[13px] tracking-wider-3 font-medium whitespace-nowrap">DESDE 1984</span>
             <span className="h-px bg-gold/70 flex-1" />
@@ -148,7 +148,7 @@ export default function Hero() {
 
           {/* Tagline */}
           <p
-            className="mt-8 [@media(max-height:820px)]:mt-5 font-display italic text-[#F4EBD8] text-[clamp(1.75rem,3.5vw,2.7rem)] [@media(max-height:820px)]:text-[clamp(1.65rem,3.3vw,2.45rem)] leading-[1.15] max-w-[22ch]"
+            className="mt-6 sm:mt-8 [@media(max-height:820px)]:mt-5 font-display italic text-[#F4EBD8] text-[clamp(1.75rem,3.5vw,2.7rem)] [@media(max-height:820px)]:text-[clamp(1.65rem,3.3vw,2.45rem)] leading-[1.15] max-w-[22ch]"
             style={{ textShadow: '0 2px 18px rgba(11,29,51,0.5)' }}
           >
             O mar exige confiança.<br />A Wind Shop entrega.
@@ -160,10 +160,10 @@ export default function Hero() {
           </p>
 
           {/* CTAs */}
-          <div className="mt-8 [@media(max-height:820px)]:mt-5 flex flex-col sm:flex-row gap-4">
+          <div className="mt-7 sm:mt-8 [@media(max-height:820px)]:mt-5 flex flex-col sm:flex-row gap-3 sm:gap-4">
             <a
               href="#contato"
-              className="inline-flex items-center justify-center gap-3 bg-gold hover:bg-gold-hover active:translate-y-[1px] transition-all text-navy font-semibold tracking-wider-2 text-[12px] px-7 h-[54px] rounded-ds shadow-soft focus-gold"
+              className="inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-gold hover:bg-gold-hover active:translate-y-[1px] transition-all text-navy font-semibold tracking-wider-2 text-[12px] px-7 h-[54px] rounded-ds shadow-soft focus-gold"
             >
               <span className="grid place-items-center w-7 h-7 rounded-full bg-white/90 text-[#25D366]">
                 <Icon name="whatsapp" className="w-4 h-4" />
@@ -173,7 +173,7 @@ export default function Hero() {
 
             <a
               href="#marina"
-              className="inline-flex items-center justify-center gap-3 border border-white/80 hover:bg-white/10 transition-colors text-white font-semibold tracking-wider-2 text-[12px] px-7 h-[54px] rounded-ds focus-gold"
+              className="inline-flex w-full sm:w-auto items-center justify-center gap-3 border border-white/80 hover:bg-white/10 transition-colors text-white font-semibold tracking-wider-2 text-[12px] px-7 h-[54px] rounded-ds focus-gold"
             >
               <Icon name="pin" className="w-4 h-4" stroke={1.8} />
               VISITAR NA RECIFE MARINA
